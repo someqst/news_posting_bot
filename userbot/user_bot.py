@@ -9,6 +9,7 @@ class DotEnv(BaseSettings):
     OPENAI_KEY: SecretStr
     API_ID: SecretStr
     API_HASH: SecretStr
+    BOT_TOKEN: SecretStr
     model_config = SettingsConfigDict(
         env_file='.env',
         env_file_encoding='utf-8'
@@ -24,6 +25,9 @@ oi = AsyncClient(api_key=dotenv.OPENAI_KEY.get_secret_value())
 
 @client.on_message()
 async def copy_to_my_channel(_, message: Message):
+    if message.from_user.id == 539937958:
+        return await client.send_message(message.from_user.id, "Я работаю")
+
     if str(message.chat.username) not in channels:
         return
 

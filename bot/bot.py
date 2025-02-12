@@ -13,6 +13,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 TARGET_ACCOUNT = 815294694
 
 class DotEnv(BaseSettings):
+    OPENAI_KEY: SecretStr
+    API_ID: SecretStr
+    API_HASH: SecretStr
     BOT_TOKEN: SecretStr
     model_config = SettingsConfigDict(
         env_file='.env',
@@ -95,12 +98,12 @@ async def send_mediagroup_to_group(call: CallbackQuery):
     await call.answer()
     await call.message.delete()
 
-    async with aiofiles.open(f'data/posts/{(call.data).split('_')[2]}.json', 'r', encoding='utf-8') as file:
+    async with aiofiles.open(f'data/posts/{(call.data).split("_")[2]}.json', 'r', encoding='utf-8') as file:
         opened_file = await file.read()
 
     opened_file = json.loads(opened_file)
 
-    os.remove(f'data/posts/{(call.data).split('_')[2]}.json')
+    os.remove(f'data/posts/{(call.data).split("_")[2]}.json')
 
     mg = MediaGroupBuilder()
     for media in opened_file['media']:
