@@ -34,6 +34,11 @@ new_media_group = {}
 cached_caption = []
 
 
+@dp.message(F.text == '/start')
+async def answer_start(message: Message):
+    await message.answer('Да, я работаю')
+
+
 @dp.message(F.text)
 async def recieve_text(message: Message):
     if message.text and message.text == 'Закончилось':
